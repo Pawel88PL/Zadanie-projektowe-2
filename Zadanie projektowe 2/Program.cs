@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Liczby_Pierwsze
 {
@@ -39,7 +40,6 @@ namespace Liczby_Pierwsze
 
 
             equalOperationCounter = 0;
-            int iterationsNumber = numbers.Length;
             long elapsedTime = 0;
             long minTime = long.MaxValue;
             long maxTime = long.MinValue;
@@ -52,7 +52,7 @@ namespace Liczby_Pierwsze
 
                 if (linearSearchResult)
                 {
-                    Console.WriteLine("{0} jest liczbą pierwszą."
+                    Console.WriteLine("Liczba {0} jest liczbą pierwszą."
                         + "\n Ilość wykonanych obliczeń sprawdzających: {1}"
                         + "\n Czas wykonania obliczeń: {2} [s]"
                         + "\n cały czas liczę ... ", numbers[i], equalOperationCounter,
@@ -61,7 +61,12 @@ namespace Liczby_Pierwsze
                 }
                 else
                 {
-                    Console.WriteLine($"{numbers[i]} NIE jest liczbą pierwszą.");
+                    Console.WriteLine("Liczba {0} NIE jest liczbą pierwszą."
+                        + "\n Ilość wykonanych obliczeń sprawdzających: {1}"
+                        + "\n Czas wykonania obliczeń: {2} [s]"
+                        + "\n cały czas liczę ... ", numbers[i], equalOperationCounter,
+                        (iterationElapsedTime * (1.0 / Stopwatch.Frequency)).ToString("F8"));
+                    Console.WriteLine();
                 }
                 elapsedTime += iterationElapsedTime;
                 if (iterationElapsedTime < minTime)
@@ -116,7 +121,6 @@ namespace Liczby_Pierwsze
             Int64[] numbers = new Int64[] { 100913, 1009139, 10091401, 100914061, 1009140611, 10091406133, 100914061337, 1009140613399 };
 
             equalOperationCounter = 0;
-            int iterationsNumber = numbers.Length;
             long elapsedTime = 0;
             long minTime = long.MaxValue;
             long maxTime = long.MinValue;
@@ -129,7 +133,7 @@ namespace Liczby_Pierwsze
 
                 if (linearSearchResult)
                 {
-                    Console.WriteLine("{0} jest liczbą pierwszą."
+                    Console.WriteLine("Liczba {0} jest liczbą pierwszą."
                         + "\n Ilość wykonanych obliczeń sprawdzających: {1}"
                         + "\n Czas wykonania obliczeń: {2} [s]",
                         numbers[i], equalOperationCounter,
@@ -138,7 +142,12 @@ namespace Liczby_Pierwsze
                 }
                 else
                 {
-                    Console.WriteLine($"{numbers[i]} NIE jest liczbą pierwszą.");
+                    Console.WriteLine("Liczba {0} NIE jest liczbą pierwszą."
+                        + "\n Ilość wykonanych obliczeń sprawdzających: {1}"
+                        + "\n Czas wykonania obliczeń: {2} [s]",
+                        numbers[i], equalOperationCounter,
+                        (iterationElapsedTime * (1.0 / Stopwatch.Frequency)).ToString("F8"));
+                    Console.WriteLine();
                 }
 
                 elapsedTime += iterationElapsedTime;
@@ -152,6 +161,118 @@ namespace Liczby_Pierwsze
                 }
             }
             Console.WriteLine();
+        }
+    }
+
+
+
+
+
+
+    public class SitoEratostenesa
+    {
+        private static ulong equalOperationCounter;
+
+        static bool LinearSearch(Int64[] vector, Int64 number)
+        {
+            for (Int64 i = 0; i < vector.Length; i++)
+            {
+                equalOperationCounter++;
+                if (vector[i] == number)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        public void CheckIsPrimeNumber()
+        {
+            Int64[] numbers = new Int64[] { 100913, 1009139, 10091401, 100914061 };
+            Int64[] tab = new Int64[101000000];
+            Int64 range = tab.Length - 1;
+            Int64 sqrt = (int)Math.Floor(Math.Sqrt(range));
+
+            for (Int64 i = 1; i <= range; i++)
+            {
+                tab[i] = i;
+            }
+
+            for (Int64 i = 2; i <= sqrt; i++)
+            {
+                if (tab[i] != 0)
+                {
+                    Int64 j = i + i;
+                    while (j <= range)
+                    {
+                        tab[j] = 0;
+                        j += i;
+                    }
+                }
+            }
+
+
+            equalOperationCounter = 0;
+            long elapsedTime = 0;
+            long minTime = long.MaxValue;
+            long maxTime = long.MinValue;
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                long startingTime = Stopwatch.GetTimestamp();
+                bool linearSearchResult = LinearSearch(tab, numbers[i]);
+                long endingTime = Stopwatch.GetTimestamp();
+                long iterationElapsedTime = endingTime - startingTime;
+
+                if (linearSearchResult)
+                {
+                    Console.WriteLine("Liczba {0} jest liczbą pierwszą."
+                        + "\n Ilość wykonanych obliczeń sprawdzających: {1}"
+                        + "\n Czas wykonania obliczeń: {2} [s]",
+                        numbers[i], equalOperationCounter,
+                        (iterationElapsedTime * (1.0 / Stopwatch.Frequency)).ToString("F8"));
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("Liczba {0} NIE jest liczbą pierwszą."
+                        + "\n Ilość wykonanych obliczeń sprawdzających: {1}"
+                        + "\n Czas wykonania obliczeń: {2} [s]",
+                        numbers[i], equalOperationCounter,
+                        (iterationElapsedTime * (1.0 / Stopwatch.Frequency)).ToString("F8"));
+                    Console.WriteLine();
+                }
+
+                elapsedTime += iterationElapsedTime;
+                if (iterationElapsedTime < minTime)
+                {
+                    minTime = iterationElapsedTime;
+                }
+                if (iterationElapsedTime > maxTime)
+                {
+                    maxTime = iterationElapsedTime;
+                }
+            }
+            Console.WriteLine();
+
+
+
+            Console.WriteLine("Czy chcesz wyświetlić tablicę liczb pierwszych? T / N");
+            string choice = Console.ReadLine();
+
+            if (choice == "t")
+            {
+                Console.WriteLine("Liczby pierwsze z zakresu od 1 do " + range + " to:");
+                for (int i = 2; i <= range; i++)
+                {
+                    if (tab[i] != 0)
+                    {
+                        Console.Write(i + ", ");
+                    }
+
+                }
+                Console.WriteLine();
+            }
         }
     }
 
@@ -196,7 +317,9 @@ namespace Liczby_Pierwsze
             BigInteger posBigInt;
             posBigInt = BigInteger.Parse(positiveString);
 
-            Console.WriteLine("Wykonuje obliczenia .... ");
+            Console.WriteLine("Zadanie bonusowe:" +
+                "\n sprawdzenie liczby 18870929470561300001893 czy jest liczbą pierwszą." +
+                "\n Wykonuje obliczenia, trochę to potrwa :) .... ");
 
             equalOperationCounter = 0;
             long elapsedTime = 0;
@@ -211,7 +334,7 @@ namespace Liczby_Pierwsze
 
                 if (linearSearchResult)
                 {
-                    Console.WriteLine("{0} jest liczbą pierwszą."
+                    Console.WriteLine("Liczba {0} jest liczbą pierwszą."
                         + "\n Ilość wykonanych obliczeń sprawdzających: {1}"
                         + "\n Czas wykonania obliczeń: {2} [s]",
                         posBigInt, equalOperationCounter,
@@ -220,7 +343,12 @@ namespace Liczby_Pierwsze
                 }
                 else
                 {
-                    Console.WriteLine($"{posBigInt} NIE jest liczbą pierwszą.");
+                    Console.WriteLine("Liczba {0} NIE jest liczbą pierwszą."
+                        + "\n Ilość wykonanych obliczeń sprawdzających: {1}"
+                        + "\n Czas wykonania obliczeń: {2} [s]",
+                        posBigInt, equalOperationCounter,
+                        (iterationElapsedTime * (1.0 / Stopwatch.Frequency)).ToString("F8"));
+                    Console.WriteLine();
                 }
 
                 elapsedTime += iterationElapsedTime;
@@ -236,6 +364,7 @@ namespace Liczby_Pierwsze
             Console.WriteLine();
         }
     }
+
 
 
 
@@ -261,6 +390,7 @@ namespace Liczby_Pierwsze
         {
             FirstAlgorithm first = new FirstAlgorithm();
             SecondAlgorithm second = new SecondAlgorithm();
+            SitoEratostenesa sito = new SitoEratostenesa();
             BonusTask bonus = new BonusTask();
 
             Console.WriteLine("Zadanie projektowe 2 \n"
@@ -271,8 +401,8 @@ namespace Liczby_Pierwsze
 
             Console.WriteLine("Jaki algorytm chcesz wybrać?" +
                 "\n 1. Podstawowy algorytm sprawdzający każdą liczbę - wybierz 1." +
-                "\n 2. Poprawiony algorytm sprawdzający pierwiastek kwadratowy z tej liczby - wybierz 2." +
-                "\n 3. Sito Eratosenesa - wybierz 3." +
+                "\n 2. Szybki algorytm sprawdzający pierwiastek kwadratowy z tej liczby - wybierz 2." +
+                "\n 3. Sito Eratostenesa - wybierz 3." +
                 "\n 4. Zadanie bonusowe - wybierz 4.");
 
             int n = int.Parse(Console.ReadLine());
@@ -286,8 +416,7 @@ namespace Liczby_Pierwsze
                     second.CheckIsPrimeNumber();
                     break;
                 case 3:
-                    // SitoEratostanesa();
-                    Console.WriteLine("SitoEratostanesa");
+                    sito.CheckIsPrimeNumber();
                     break;
                 case 4:
                     bonus.CheckIsPrimeNumber();

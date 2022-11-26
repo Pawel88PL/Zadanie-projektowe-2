@@ -6,6 +6,7 @@
     <RootNamespace>Zadanie_projektowe_2</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
 </Project>
