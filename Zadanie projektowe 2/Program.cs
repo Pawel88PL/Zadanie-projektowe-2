@@ -381,8 +381,6 @@ namespace Liczby_Pierwsze
                 Console.WriteLine();
             }
             while (EndProgram());
-
-            Console.ReadKey();
         }
 
 
@@ -429,7 +427,7 @@ namespace Liczby_Pierwsze
         {
             string end;
             Console.WriteLine("Czy chcesz zakończyć program? \n" +
-                "Tak - naciśnij Enter dwa razy. \n" +
+                "Tak - naciśnij Enter. \n" +
                 "Nie - wpisz słowo 'nie'.");
             end = Console.ReadLine();
             Console.WriteLine();
