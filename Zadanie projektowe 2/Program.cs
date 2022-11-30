@@ -262,8 +262,8 @@ namespace Liczby_Pierwsze
 
             if (choice == "t")
             {
-                Console.WriteLine("Liczby pierwsze z zakresu od 1 do " + range + " to:");
-                for (int i = 2; i <= range; i++)
+                Console.WriteLine("Liczby pierwsze z zakresu od 1 do 10 000 to:");
+                for (int i = 2; i <= 10000; i++)
                 {
                     if (tab[i] != 0)
                     {
@@ -420,6 +420,7 @@ namespace Liczby_Pierwsze
                     bonus.CheckIsPrimeNumber();
                     break;
             }
+            Console.WriteLine();
         }
 
 

@@ -9,4 +9,12 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Paweł\iCloudDrive\Studia WSB informatyka\II semestr\Algorytmy i struktury danych\Programy\Zadanie projektowe 2\Zadanie projektowe 2\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\Paweł\iCloudDrive\Studia WSB informatyka\II semestr\Algorytmy i struktury danych\Programy\Zadanie projektowe 2\Zadanie projektowe 2\.editorconfig" />
+  </ItemGroup>
+
 </Project>
